@@ -143,12 +143,6 @@ def GotoUpdateFile(number, name):
 
 def LoopRun():
     print(" ********** PLC Update Tools *********** ")
-    if platform.architecture()[0].find('32') >= 0:
-        PCOMM_DLL = windll.LoadLibrary('.\\Lib\\x86\\PCOMM.DLL')
-        print('Load x86 dll file')
-    else:
-        PCOMM_DLL = windll.LoadLibrary('.\\Lib\\x64\\PCOMM.DLL')
-        print('Load x64 dll file')
 
     OutputBuffer = '\n\r'
     InputBuffer = ''
@@ -230,10 +224,17 @@ if __name__ == '__main__':
     SerialPort = serial.Serial('COM' + str(SERIAL_PORT), baudrate = 115200, bytesize = 8,
         parity = 'N', stopbits = 1, timeout = 0.2)
 
+    if platform.architecture()[0].find('32') >= 0:
+        PCOMM_DLL = windll.LoadLibrary('.\\Lib\\x86\\PCOMM.DLL')
+        print('Load x86 dll file')
+    else:
+        PCOMM_DLL = windll.LoadLibrary('.\\Lib\\x64\\PCOMM.DLL')
+        print('Load x64 dll file')
+
     while True:
         UsrInput = input("Continue ? : (y/n)")
         if UsrInput.find('y') >= 0:
-            continue
+            UsrInput = 'y'
         else:
             break
         LoopRun()
